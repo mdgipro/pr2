@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Mystery for Princess 👑</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Georgia, serif;
+  color: #75445e;
+  background:
+    radial-gradient(circle at top, #fff8fc, transparent 60%),
+    linear-gradient(135deg,#f9e7ef,#eee5fa,#fff0e8);
+  text-align: center;
+  overflow-x: hidden;
+}
+
+.container {
+  width: min(900px, 92%);
+  margin: auto;
+  padding: 55px 15px;
+}
+
+.crown { font-size: 42px; }
+
+h1 {
+  font-size: clamp(38px, 8vw, 65px);
+  margin: 12px 0;
+  color: #b36d91;
+  font-weight: normal;
+}
+
+.subtitle {
+  color: #99778a;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.intro { margin-bottom: 38px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 18px;
+  max-width: 650px;
+  margin: auto;
+}
+
+.gift {
+  border: 1px solid #efd1df;
+  border-radius: 22px;
+  padding: 25px 12px;
+  background: rgba(255,255,255,.65);
+  cursor: pointer;
+  transition: .3s;
+  box-shadow: 0 8px 25px #b986a31a;
+}
+
+.gift:hover {
+  transform: translateY(-7px) rotate(-1deg);
+  background: #fff;
+  box-shadow: 0 12px 28px #b986a344;
+}
+
+.gift.opened {
+  background: #f6e5ee;
+  cursor: default;
+  transform: none;
+}
+
+.gift-icon {
+  font-size: 65px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.gift h3 { margin: 5px; font-size: 19px; }
+.gift p { font-size: 13px; color: #a17f91; }
+
+.counter {
+  margin: 30px 0;
+  color: #a47791;
+}
+
+#secret {
+  display: none;
+  margin: 35px auto;
+  padding: 30px;
+  max-width: 600px;
+  border-radius: 25px;
+  background: linear-gradient(135deg,#fff,#fae3ee);
+  border: 1px dashed #d9a3bd;
+  animation: appear .7s;
+}
+
+#secret button, .close {
+  border: none;
+  border-radius: 30px;
+  background: #bd789b;
+  color: white;
+  padding: 13px 24px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  padding: 20px;
+  background: #50334599;
+  z-index: 10;
+}
+
+.modal-content {
+  background: #fff7fa;
+  border-radius: 27px;
+  padding: 35px 25px;
+  width: min(430px,100%);
+  animation: appear .4s;
+  box-shadow: 0 15px 50px #42223555;
+}
+
+.modal-icon { font-size: 65px; }
+.modal h2 { color: #b36d91; font-weight: normal; }
+.modal p { line-height: 1.8; }
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.confetti {
+  position: fixed;
+  top: -20px;
+  z-index: 20;
+  pointer-events: none;
+  animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+footer {
+  margin-top: 55px;
+  color: #b18b9e;
+  font-size: 13px;
+}
+
+@media(max-width:430px) {
+  .grid { gap: 10px; }
+  .gift { padding: 20px 6px; }
+  .gift-icon { font-size: 50px; }
+}
+</style>
+</head>
+
+<body>
+<main class="container">
+
+  <div class="intro">
+    <div class="crown">👑</div>
+    <h1>For Princess</h1>
+    <p class="subtitle">
+      Happy Birthday, Princess! ♡<br>
+      A little mystery has been prepared just for you.<br>
+      Four boxes. Four surprises. One secret.
+    </p>
+    <p>🎀 Choose your first mystery gift 🎀</p>
+  </div>
+
+  <div class="grid" id="gifts">
+
+    <div class="gift" onclick="openGift(0,this)">
+      <span class="gift-icon">🎁</span>
+      <h3>The Lucky Box</h3>
+      <p>Something good is waiting...</p>
+    </div>
+
+    <div class="gift" onclick="openGift(1,this)">
+      <span class="gift-icon">🎀</span>
+      <h3>The Chaos Box</h3>
+      <p>Proceed with curiosity.</p>
+    </div>
+
+    <div class="gift" onclick="openGift(2,this)">
+      <span class="gift-icon">💎</span>
+      <h3>The Secret Box</h3>
+      <p>Not everything is as it seems.</p>
+    </div>
+
+    <div class="gift" onclick="openGift(3,this)">
+      <span class="gift-icon">🌷</span>
+      <h3>The Special Box</h3>
+      <p>Saved something nice for you.</p>
+    </div>
+
+  </div>
+
+  <p class="counter" id="counter">0 / 4 gifts discovered</p>
+
+  <section id="secret">
+    <div style="font-size:60px">👑✨</div>
+    <h2>The Secret Fifth Gift!</h2>
+    <p>You found everything, Princess!</p>
+    <button onclick="finalSurprise()">Unlock the final surprise</button>
+  </section>
+
+  <footer>
+    Made with a little creativity and lots of birthday magic ♡
+  </footer>
+</main>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="modal-icon" id="modalIcon">🎁</div>
+    <h2 id="modalTitle">Surprise!</h2>
+    <p id="modalText"></p>
+    <button class="close" onclick="closeModal()">Continue exploring ♡</button>
+  </div>
+</div>
+
+<script>
+const surprises = [
+  {
+    icon: "🍀",
+    title: "A little birthday luck!",
+    text: "Princess, your official prediction: unexpected happiness, beautiful opportunities, and lots of reasons to smile. ✨"
+  },
+  {
+    icon: "😂",
+    title: "CHAOS UNLOCKED!",
+    text: "Congratulations! You have won absolutely nothing... except unlimited birthday privileges and the right to be dramatic today."
+  },
+  {
+    icon: "💎",
+    title: "A rare discovery!",
+    text: "Some people just make ordinary days a little more interesting. You're definitely one of those people, Princess. ♡"
+  },
+  {
+    icon: "🌷",
+    title: "A little reminder",
+    text: "May this new chapter bring you lovely surprises, new adventures, peaceful days, and everything you've been hoping for."
+  }
+];
+
+let opened = new Set();
+
+function openGift(index, element) {
+  if(opened.has(index)) return;
+
+  opened.add(index);
+  element.classList.add("opened");
+  element.querySelector(".gift-icon").textContent = "✨";
+  element.querySelector("p").textContent = "Discovered!";
+
+  document.getElementById("counter").textContent =
+    opened.size + " / 4 gifts discovered";
+
+  document.getElementById("modalIcon").textContent =
+    surprises[index].icon;
+
+  document.getElementById("modalTitle").textContent =
+    surprises[index].title;
+
+  document.getElementById("modalText").textContent =
+    surprises[index].text;
+
+  document.getElementById("modal").style.display = "grid";
+
+  if(opened.size === 4) {
+    document.getElementById("secret").style.display = "block";
+    confetti();
+  }
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+function finalSurprise() {
+  document.getElementById("modalIcon").textContent = "🎂";
+  document.getElementById("modalTitle").textContent =
+    "HAPPY BIRTHDAY, PRINCESS!";
+
+  document.getElementById("modalText").textContent =
+    "Your final surprise is a wish: may your days be filled with laughter, your dreams get closer, and this year become one worth remembering. You deserve a beautiful birthday! ♡";
+
+  document.getElementById("modal").style.display = "grid";
+  confetti();
+}
+
+function confetti() {
+  const colors = ["#f5a9c9","#d5b4ef","#f7d68b","#b5dfc1"];
+
+  for(let i=0; i<90; i++) {
+    const piece = document.createElement("div");
+    piece.className = "confetti";
+    piece.textContent = ["✦","♥","✧","•"][i%4];
+    piece.style.left = Math.random()*100 + "vw";
+    piece.style.color = colors[i%colors.length];
+    piece.style.fontSize = (12+Math.random()*15)+"px";
+    piece.style.animationDuration = (2+Math.random()*3)+"s";
+    document.body.appendChild(piece);
+    setTimeout(()=>piece.remove(),5000);
+  }
+}
+</script>
+</body>
+</html>
